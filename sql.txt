@@ -1,0 +1,45 @@
+задача 1
+select orderNumber,productCode,quantityOrdered,quantityOrdered*priceEach as total from orderdetails
+order by quantityOrdered*priceEach desc
+limit 10
+
+задача 2
+select orderNumber,sum(quantityOrdered*priceEach) as total from orderdetails
+group by ordernumber
+having sum(quantityOrdered*priceEach) > 59000
+order by sum(quantityOrdered*priceEach) desc
+
+задача 3
+select orderdetails.orderNumber,orderDate,status,sum(quantityOrdered*priceEach) as total from orderdetails
+join orders on orderdetails.orderNumber = orders.orderNumber
+group by orderdetails.orderNumber
+having sum(quantityOrdered*priceEach) > 59000
+order by sum(quantityOrdered*priceEach) desc
+
+задача 4
+select contactFirstName,contactLastName,country,orderdetails.orderNumber,orderDate,status,sum(quantityOrdered*priceEach) as total from orderdetails
+join orders on orderdetails.orderNumber = orders.orderNumber
+join customers on orders.customerNumber=customers.customerNumber
+group by orderdetails.orderNumber
+having sum(quantityOrdered*priceEach) > 59000
+order by sum(quantityOrdered*priceEach) desc
+
+задача 5
+select productName, sum(quantityOrdered*priceEach) as total from orderdetails o
+join products p on o.productCode=p.productCode
+group by productname
+order by sum(quantityOrdered*priceEach) desc
+limit 10
+
+
+задача 6
+select firstName,lastName, contactFirstName, contactLastName from employees e
+left join customers c on e.employeeNumber=c.salesRepEmployeeNumber
+union
+select firstName,lastName, contactFirstName, contactLastName from employees e
+right join customers c on e.employeeNumber=c.salesRepEmployeeNumber
+
+
+задача 7
+select e1.firstName,e1.lastName,e1.jobTitle,e2.firstName as subFirstName,e2.lastName as subLastName from employees e1
+join employees e2 on e1.reportsTo=e2.employeeNumber
