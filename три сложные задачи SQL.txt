@@ -1,0 +1,42 @@
+https://sql-academy.org/ru/trainer/tasks/45
+
+WITH temp as (
+	SELECT classroom,
+		COUNT(*) as count
+	FROM Schedule
+	GROUP by classroom
+)
+SELECT classroom
+from temp
+WHERE count =(
+		select MAX(COUNT)
+		FROM temp
+	)
+
+
+https://sql-academy.org/ru/trainer/tasks/55
+WITH RRR AS (
+	SELECT company,
+		COUNT(*) AS COUNT
+	FROM Trip
+	GROUP BY Company
+)
+DELETE FROM Company
+WHERE ID = ANY(
+		SELECT Company
+		FROM RRR
+		WHERE COUNT =(
+				SELECT MIN(COUNT)
+				FROM RRR
+			)
+	)
+
+
+
+https://sql-academy.org/ru/trainer/tasks/44
+
+SELECT MAX(TIMESTAMPDIFF(YEAR, birthday, NOW())) as max_year
+FROM Student
+	JOIN Student_in_class on Student_in_class.student = Student.id
+	JOIN Class on Student_in_class.class = Class.id
+WHERE class.name like '10%'
